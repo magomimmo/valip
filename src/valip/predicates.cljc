@@ -1,14 +1,24 @@
 (ns valip.predicates
-  "Predicates useful for validating input strings, such as ones from HTML forms.
-All predicates in this namespace are considered portable between different
-Clojure implementations."
-  (:require [clojure.string :as str]
-            [cljs.reader :refer [read-string]])
-  (#?(:clj :require :cljs :require-macros)
+  "Predicates useful for validating input strings, such as ones from HTML forms."
+
+  ;; shared conditional requirement: cljs require-macros
+  (#? (:clj :require :cljs :require-macros)
    [valip.predicates.def :refer [defpredicate]])
-  (:refer-clojure :exclude [read-string])
+  
+  ;; shared requirement: clojure.string 
+  (:require [clojure.string :as str])
+  
+  ;; cljs specific requirements: cljs.reader
+  #? (:cljs (:require [cljs.reader :refer [read-string]]))
+  
+  ;; cljs specific exclusion: read-string
+  #? (:cljs (:refer-clojure :exclude [read-string]))
+  
+  ;; shared conditional import
   (:import #? (:cljs goog.Uri
                :clj (java.net URI URISyntaxException)))
+  
+  ;; clj specific import
   #? (:clj (:import java.util.Hashtable
                     javax.naming.NamingException
                     javax.naming.directory.InitialDirContext)))
