@@ -4,9 +4,14 @@ All predicates in this namespace are considered portable between different
 Clojure implementations."
   (:require [clojure.string :as str]
             [cljs.reader :refer [read-string]])
+  (#?(:clj :require :cljs :require-macros)
+   [valip.predicates.def :refer [defpredicate]])
   (:refer-clojure :exclude [read-string])
   (:import #? (:cljs goog.Uri
-               :clj (java.net URI URISyntaxException))))
+               :clj (java.net URI URISyntaxException)))
+  #? (:clj (:import java.util.Hashtable
+                    javax.naming.NamingException
+                    javax.naming.directory.InitialDirContext)))
 
 (defn present?
   "Returns false if x is nil or blank, true otherwise."
@@ -123,3 +128,20 @@ Clojure implementations."
                     (re-find #"//" s)
                     true))
              (catch URISyntaxException _ false)))) 
+
+#? (:clj (defn- dns-lookup [^String hostname ^String type]
+           (let [params {"java.naming.factory.initial"
+                         "com.sun.jndi.dns.DnsContextFactory"}]
+             (try
+               (.. (InitialDirContext. (Hashtable. params))
+                   (getAttributes hostname (into-array [type]))
+                   (get type))
+               (catch NamingException _
+                 nil)))))
+
+#? (:clj (defpredicate valid-email-domain?
+           "Returns true if the domain of the supplied email address has a MX DNS entry."
+           [email]
+           [email-address?]
+           (if-let [domain (second (re-matches #".*@(.*)" email))]
+             (boolean (dns-lookup domain "MX")))))

@@ -1,6 +1,5 @@
 (ns valip.test.predicates
-  (:use valip.predicates
-        valip.java.predicates)
+  (:use valip.predicates)
   (:use clojure.test))
 
 (deftest test-present?
