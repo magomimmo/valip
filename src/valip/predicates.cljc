@@ -5,8 +5,8 @@ Clojure implementations."
   (:require [clojure.string :as str]
             [cljs.reader :refer [read-string]])
   (:refer-clojure :exclude [read-string])
-  #? (:cljs (:import goog.Uri)
-      :clj (:import (java.net URI URISyntaxException))))
+  (:import #? (:cljs goog.Uri
+               :clj (java.net URI URISyntaxException))))
 
 (defn present?
   "Returns false if x is nil or blank, true otherwise."
