@@ -3,21 +3,9 @@
   (:require [valip.predicates :as preds]
             [valip.predicates.def :refer (defpredicate)])
   (:import
-    (java.net URI URISyntaxException)
-    java.util.Hashtable
-    javax.naming.NamingException
-    javax.naming.directory.InitialDirContext))
-
-(defn url?
-  "Returns true if the string is a valid URL."
-  [s]
-  (try
-    (let [uri (URI. s)]
-      (and (seq (.getScheme uri))
-           (seq (.getSchemeSpecificPart uri))
-           (re-find #"//" s)
-           true))
-    (catch URISyntaxException _ false)))
+   java.util.Hashtable
+   javax.naming.NamingException
+   javax.naming.directory.InitialDirContext))
 
 (defn- dns-lookup [^String hostname ^String type]
   (let [params {"java.naming.factory.initial"

@@ -4,7 +4,9 @@ All predicates in this namespace are considered portable between different
 Clojure implementations."
   (:require [clojure.string :as str]
             [cljs.reader :refer [read-string]])
-  (:refer-clojure :exclude [read-string]))
+  (:refer-clojure :exclude [read-string])
+  #? (:cljs (:import goog.Uri)
+      :clj (:import (java.net URI URISyntaxException))))
 
 (defn present?
   "Returns false if x is nil or blank, true otherwise."
@@ -105,3 +107,19 @@ Clojure implementations."
     (if-let [x (parse-number x)]
       (and (>= x min) (<= x max)))))
 
+#? (:cljs (defn url?
+            [s]
+            (let [uri (-> s goog.Uri/parse)]
+              (and (seq (.getScheme uri))
+                   (seq (.getSchemeSpecificPart uri))
+                   (re-find #"//" s))))
+    :clj (defn url?
+           "Returns true if the string is a valid URL."
+           [s]
+           (try
+             (let [uri (URI. s)]
+               (and (seq (.getScheme uri))
+                    (seq (.getSchemeSpecificPart uri))
+                    (re-find #"//" s)
+                    true))
+             (catch URISyntaxException _ false)))) 
