@@ -1,27 +1,20 @@
 (ns valip.predicates
   "Predicates useful for validating input strings, such as ones from HTML forms."
+  
+  #?(:clj (:require [valip.predicates.def :refer [defpredicate]]
+                    [clojure.string :as str])
+     :cljs (:require [clojure.string :as str]
+                     [cljs.reader :refer [read-string]]
+                     [goog.Uri :as uri]))
 
-  ;; shared conditional requirement: cljs require-macros
-  (#? (:clj :require :cljs :require-macros)
-   [valip.predicates.def :refer [defpredicate]])
+  #?(:cljs (:require-macros [valip.predicates.def :refer [defpredicate]]))
   
-  ;; shared requirement: clojure.string 
-  (:require [clojure.string :as str])
+  #?(:cljs (:refer-clojure :exclude [read-string]))
   
-  ;; cljs specific requirements: cljs.reader
-  #? (:cljs (:require [cljs.reader :refer [read-string]]))
-  
-  ;; cljs specific exclusion: read-string
-  #? (:cljs (:refer-clojure :exclude [read-string]))
-  
-  ;; shared conditional import
-  (:import #? (:cljs goog.Uri
-               :clj (java.net URI URISyntaxException)))
-  
-  ;; clj specific import
-  #? (:clj (:import java.util.Hashtable
-                    javax.naming.NamingException
-                    javax.naming.directory.InitialDirContext)))
+  #?(:clj (:import (java.net URI URISyntaxException)
+                   java.util.Hashtable
+                   javax.naming.NamingException
+                   javax.naming.directory.InitialDirContext)))
 
 (defn present?
   "Returns false if x is nil or blank, true otherwise."
@@ -122,36 +115,36 @@
     (if-let [x (parse-number x)]
       (and (>= x min) (<= x max)))))
 
-#? (:cljs (defn url?
-            [s]
-            (let [uri (-> s goog.Uri/parse)]
-              (and (seq (.getScheme uri))
-                   (seq (.getSchemeSpecificPart uri))
-                   (re-find #"//" s))))) 
+#?(:cljs (defn url?
+           [s]
+           (let [parsed-uri (-> s uri/parse)]
+             (and (seq (.getScheme parsed-uri))
+                  (seq (.getSchemeSpecificPart parsed-uri))
+                  (re-find #"//" s))))) 
 
-#? (:clj (do (defn url?
-               "Returns true if the string is a valid URL."
-               [s]
-               (try
-                 (let [uri (URI. s)]
-                   (and (seq (.getScheme uri))
-                        (seq (.getSchemeSpecificPart uri))
-                        (re-find #"//" s)
-                        true))
-                 (catch URISyntaxException _ false))) 
-             (defn- dns-lookup [^String hostname ^String type]
-               (let [params {"java.naming.factory.initial"
-                             "com.sun.jndi.dns.DnsContextFactory"}]
-                 (try
-                   (.. (InitialDirContext. (Hashtable. params))
-                       (getAttributes hostname (into-array [type]))
-                       (get type))
-                   (catch NamingException _
-                     nil))))
-             (defpredicate valid-email-domain?
-               "Returns true if the domain of the supplied email address has a MX DNS entry."
-               [email]
-               [email-address?]
-               (if-let [domain (second (re-matches #".*@(.*)" email))]
-                 (boolean (dns-lookup domain "MX"))))))
+#?(:clj (do (defn url?
+              "Returns true if the string is a valid URL."
+              [s]
+              (try
+                (let [uri (URI. s)]
+                  (and (seq (.getScheme uri))
+                       (seq (.getSchemeSpecificPart uri))
+                       (re-find #"//" s)
+                       true))
+                (catch URISyntaxException _ false))) 
+            (defn- dns-lookup [^String hostname ^String type]
+              (let [params {"java.naming.factory.initial"
+                            "com.sun.jndi.dns.DnsContextFactory"}]
+                (try
+                  (.. (InitialDirContext. (Hashtable. params))
+                      (getAttributes hostname (into-array [type]))
+                      (get type))
+                  (catch NamingException _
+                    nil))))
+            (defpredicate valid-email-domain?
+              "Returns true if the domain of the supplied email address has a MX DNS entry."
+              [email]
+              [email-address?]
+              (if-let [domain (second (re-matches #".*@(.*)" email))]
+                (boolean (dns-lookup domain "MX"))))))
 
