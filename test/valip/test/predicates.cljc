@@ -1,6 +1,24 @@
 (ns valip.test.predicates
-  (:use valip.predicates)
-  (:use clojure.test))
+  #? (:cljs (:require [valip.predicates :refer [present?
+                                                matches
+                                                max-length
+                                                min-length
+                                                email-address?
+                                                url?
+                                                digits?
+                                                integer-string?
+                                                decimal-string?
+                                                gt
+                                                gte
+                                                lt
+                                                lte
+                                                over
+                                                under
+                                                at-most
+                                                at-least
+                                                between]]
+                      [cljs.test :refer-macros [deftest is]])
+      :clj (:use valip.predicates clojure.test)))
 
 (deftest test-present?
   (is (not (present? nil)))
@@ -11,11 +29,6 @@
 (deftest test-matches
   (is ((matches #"...") "foo"))
   (is (not ((matches #"...") "foobar"))))
-
-(deftest test-max-length
-  (is ((max-length 5) "hello"))
-  (is ((max-length 5) "hi"))
-  (is (not ((max-length 5) "hello world"))))
 
 (deftest test-max-length
   (is ((min-length 5) "hello"))
@@ -33,11 +46,13 @@
   (is (not (email-address? "foo bar@example.com")))
   (is (not (email-address? "foo@foo_bar.com"))))
 
-(deftest test-valid-email-domain?
-  (is (valid-email-domain? "example@google.com"))
-  (is (not (valid-email-domain? "foo@example.com")))
-  (is (not (valid-email-domain? "foo@google.com.nospam")))
-  (is (not (valid-email-domain? "foo"))))
+;;; JVM only
+
+#? (:clj (deftest test-valid-email-domain?
+           (is (valid-email-domain? "example@google.com"))
+           (is (not (valid-email-domain? "foo@example.com")))
+           (is (not (valid-email-domain? "foo@google.com.nospam")))
+           (is (not (valid-email-domain? "foo")))))
 
 (deftest test-url?
   (is (url? "http://google.com"))

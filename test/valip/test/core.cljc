@@ -1,6 +1,8 @@
 (ns valip.test.core
-  (:use valip.core)
-  (:use clojure.test))
+  #? (:clj (:require [valip.core :refer [validation-on validate]]
+                     [clojure.test :refer [deftest is]])
+      :cljs (:require [valip.core :refer [validation-on validate]]
+                      [cljs.test :refer-macros [deftest is]])))
 
 (deftest validation-on-test
   (let [p? (fn [x] false)
