@@ -4,25 +4,40 @@
   :url "http://github.com/magomimmo/valip"
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.170"]]
+
   :plugins [[lein-cljsbuild "1.1.1"]]
   
   ;; :hooks [leiningen.cljsbuild]
 
-  :cljsbuild {:test-commands
-              {"unit" 
-               ["phantomjs" :runner
-                "target/js/unit-test.js"]}
-              :builds {:prod
-                       {:source-paths ["src"]
-                        :jar true
-                        :compiler {:output-to "target/js/main.js"
-                                   :optimization :advanced
-                                   :pretty-print false
-                                   }}
-                       :test
+  :cljsbuild {:builds {;; none
+                       :test-none
                        {:source-paths ["src" "test"]
-                        :compiler {:output-to "target/js/unit-test.js"
+                        :compiler {:output-to "target/none/test-none.js"
+                                   :output-dir "target/none"
+                                   :optimization :none
+                                   :pretty-print true}}
+                       ;; whitespace
+                       :test-whitespace
+                       {:source-paths ["src" "test"]
+                        :compiler {:output-to "target/whitespace/test-whitespace.js"
+                                   :output-dir "target/whitespace"
                                    :optimization :whitespace
-                                   :pretty-print true}}}}
-  :clean-targets ^{:protect false} [:target-path "resources"]
-  )
+                                   :pretty-print true}}
+                       ;; simple
+                       :test-simple
+                       {:source-paths ["src" "test"]
+                        :compiler {:output-to "target/simple/test-simple.js"
+                                   :output-dir "target/simple"
+                                   :optimization :simple
+                                   :pretty-print false}}
+                       ;; advanced
+                       :test-advanced
+                       {:source-paths ["src" "test"]
+                        :compiler {:output-to "target/advanced/test-advanced.js"
+                                   :output-dir "target/advanced"
+                                   :optimization :advanced
+                                   :pretty-print false}}}}
+
+  :clean-targets ^{:protect false} [:target-path "resources"])
+
+
