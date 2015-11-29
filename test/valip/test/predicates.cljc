@@ -4,7 +4,6 @@
                                                 max-length
                                                 min-length
                                                 email-address?
-                                                url?
                                                 digits?
                                                 integer-string?
                                                 decimal-string?
@@ -45,20 +44,6 @@
   (is (not (email-address? "foo@bar")))
   (is (not (email-address? "foo bar@example.com")))
   (is (not (email-address? "foo@foo_bar.com"))))
-
-;;; JVM only
-
-#? (:clj (deftest test-valid-email-domain?
-           (is (valid-email-domain? "example@google.com"))
-           (is (not (valid-email-domain? "foo@example.com")))
-           (is (not (valid-email-domain? "foo@google.com.nospam")))
-           (is (not (valid-email-domain? "foo")))))
-
-(deftest test-url?
-  (is (url? "http://google.com"))
-  (is (url? "http://foo"))
-  (is (not (url? "foobar")))
-  (is (not (url? ""))))
 
 (deftest test-digits?
   (is (digits? "01234"))
@@ -130,3 +115,17 @@
   (is (not ((between 1 10) "0")))
   (is (not ((between 1 10) "11")))
   (is (not ((between 1 10) ""))))
+
+;;; JVM only
+
+#? (:clj (deftest test-valid-email-domain?
+           (is (valid-email-domain? "example@google.com"))
+           (is (not (valid-email-domain? "foo@example.com")))
+           (is (not (valid-email-domain? "foo@google.com.nospam")))
+           (is (not (valid-email-domain? "foo")))))
+
+#? (:clj (deftest test-url?
+           (is (url? "http://google.com"))
+           (is (url? "http://foo"))
+           (is (not (url? "foobar")))
+           (is (not (url? "")))))
