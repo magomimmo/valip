@@ -4,8 +4,7 @@
   #?(:clj (:require [valip.predicates.def :refer [defpredicate]]
                     [clojure.string :as str])
      :cljs (:require [clojure.string :as str]
-                     [cljs.reader :refer [read-string]]
-                     [goog.Uri :as uri]))
+                     [cljs.reader :refer [read-string]]))
 
   #?(:cljs (:require-macros [valip.predicates.def :refer [defpredicate]]))
   
@@ -114,14 +113,7 @@
   (fn [x]
     (if-let [x (parse-number x)]
       (and (>= x min) (<= x max)))))
-
-#?(:cljs (defn url?
-           [s]
-           (let [parsed-uri (-> s uri/parse)]
-             (and (seq (.getScheme parsed-uri))
-                  (seq (.getSchemeSpecificPart parsed-uri))
-                  (re-find #"//" s))))) 
-
+ 
 #?(:clj (do (defn url?
               "Returns true if the string is a valid URL."
               [s]
