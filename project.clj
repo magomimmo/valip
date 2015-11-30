@@ -42,6 +42,6 @@
                                    :main valip.runner
                                    :optimization :advanced
                                    :pretty-print false}}}}
-  clean-targets ^{:protect false} [:target-path "resources" "dev-resources"])
+  :clean-targets ^{:protect false} [:target-path "resources" "dev-resources"])
 
 
