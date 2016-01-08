@@ -5,3 +5,5 @@ classes
 .lein-failures
 .lein-repl-history
 target
+.nrepl-history
+.nrepl-port
