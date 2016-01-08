@@ -124,10 +124,10 @@
             (catch URISyntaxException _ false)))
    :cljs (defn url?
            [s]
-           (let [uri (-> s goog.Uri/parse)]
+           (let [uri (.parse goog.Uri (str s))]
              (and (seq (.getScheme uri))
-                  (seq (.getSchemeSpecificPart uri))
-                  (re-find #"//" s)))))
+                  ;; (seq (.getSchemeSpecificPart uri))
+                  (re-find #"//" (str s))))))
 
 #?(:clj (defn- dns-lookup [^String hostname ^String type]
           (let [params {"java.naming.factory.initial"
