@@ -22,7 +22,7 @@
   "Creates a predicate that returns true if the supplied regular expression
   matches its argument."
   [re]
-  (fn [s] (boolean (re-matches re s))))
+  (fn [s] (boolean (re-matches re (str s)))))
 
 (defn max-length
   "Creates a predicate that returns true if a string's length is less than or
@@ -46,22 +46,22 @@
                 "(?:\\.[a-z0-9!#$%&'*+/=?" "^_`{|}~-]+)*"
                 "@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+"
                 "[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]
-    (boolean (re-matches (re-pattern re) email))))
+    (boolean (re-matches (re-pattern re) (str email)))))
 
 (defn integer-string?
   "Returns true if the string represents an integer."
   [s]
-  (boolean (re-matches #"\s*[+-]?\d+\s*" s)))
+  (boolean (re-matches #"\s*[+-]?\d+\s*" (str s))))
 
 (defn decimal-string?
   "Returns true if the string represents a decimal number."
   [s]
-  (boolean (re-matches #"\s*[+-]?\d+(\.\d+(M|M|N)?)?\s*" s)))
+  (boolean (re-matches #"\s*[+-]?\d+(\.\d+(M|M|N)?)?\s*" (str s))))
 
 (defn digits?
   "Returns true if a string consists only of numerical digits."
   [s]
-  (boolean (re-matches #"\d+" s)))
+  (boolean (re-matches #"\d+" (str s))))
 
 (defn alphanumeric?
   "Returns true if a string consists only of alphanumeric characters."
@@ -116,10 +116,10 @@
           "Returns true if the string is a valid URL."
           [s]
           (try
-            (let [uri (URI. s)]
+            (let [uri (URI. (str s))]
               (and (seq (.getScheme uri))
                    (seq (.getSchemeSpecificPart uri))
-                   (re-find #"//" s)
+                   (re-find #"//" (str s))
                    true))
             (catch URISyntaxException _ false)))
    :cljs (defn url?
