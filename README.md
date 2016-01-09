@@ -5,15 +5,15 @@ designed to validate keyword-string maps, such as one might get from a
 HTML form.
 
 This is an experimental fork of
-[Chas Emerick](https://github.com/cemerick)'[valip](https://github.com/cemerick/valip)'
+[Chas Emerick](https://github.com/cemerick)' [valip](https://github.com/cemerick/valip)'
 library that, in tunr, is a fork of
 [James Reeves](http://github.com/weavejester)'
-[valip](http://github.com/weavejester/valip) library. The differences
-between this and that are significant:
+[valip](http://github.com/weavejester/valip) library.
 
-1. I tried to make this fork compliant with the new Reader Conditional
-   extension that was not available a the time Chas Emerick wrote its
-   fork;.
+1. I tried to make this fork compliant with the new
+   [Reader Conditional](http://clojure.org/reader#The%20Reader--Reader%20Conditionals)
+   extension that was not available a the time Chas Emerick wrote his
+   fork;
 2. Since I was breaking stuff anyway, I fixed a security issue and
    added the coverage of corner cases, hopefully all for the better.
 
@@ -66,7 +66,7 @@ For example:
     => {:age ["must be over 18"])
 
 You can see an example of usage of the `valip` library in the
-[`modern-cljs](https://github.com/magomimmo/modern-cljs) series of
+[`modern-cljs`](https://github.com/magomimmo/modern-cljs) series of
 tutorial on Clojure(Script).
 
 # Predicates
@@ -80,6 +80,6 @@ includes platform-specific predicates using the `#?` reader macro.
 
 ## License
 
-Copyright © 2012 James Reeves and Chas Emerick
+Copyright © 2012-2015 James Reeves and Chas Emerick
 
 Distributed under the Eclipse Public License, the same as Clojure.
