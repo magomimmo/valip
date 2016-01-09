@@ -124,8 +124,8 @@
             (catch URISyntaxException _ false)))
    :cljs (defn url?
            [s]
-           (let [uri (.parse goog.Uri (str s))]
-             (and (seq (.getScheme uri))
+           (let [uri (. goog.Uri (parse (str s)))]
+             (and (seq (. uri (getScheme)))
                   ;; (seq (.getSchemeSpecificPart uri))
                   (re-find #"//" (str s))))))
 
