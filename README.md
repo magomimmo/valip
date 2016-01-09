@@ -5,9 +5,9 @@ designed to validate keyword-string maps, such as one might get from a
 HTML form.
 
 This is an experimental fork of
-[Chas Emerick](https://github.com/cemerick)' [valip](https://github.com/cemerick/valip)'
-library that, in tunr, is a fork of
-[James Reeves](http://github.com/weavejester)'
+[Chas Emerick](https://github.com/cemerick)'
+[valip](https://github.com/cemerick/valip) library that, in turn, was
+a fork of [James Reeves](http://github.com/weavejester)'
 [valip](http://github.com/weavejester/valip) library.
 
 1. I tried to make this fork compliant with the new
