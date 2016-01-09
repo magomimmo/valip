@@ -1,28 +1,33 @@
 # Valip
 
-Valip is a validation library for Clojure. It is primarily designed to validate
-keyword-string maps, such as one might get from a HTML form.
+Valip is a validation library for Clojure(Script). It is primarily
+designed to validate keyword-string maps, such as one might get from a
+HTML form.
 
-**This is an experimental fork of [James
-Reeves](http://github.com/weavejester)'
-[valip](http://github.com/weavejester/valip) library.**  The differences
+This is an experimental fork of
+[Chas Emerick](https://github.com/cemerick)'[valip](https://github.com/cemerick/valip)'
+library that, in tunr, is a fork of
+[James Reeves](http://github.com/weavejester)'
+[valip](http://github.com/weavejester/valip) library. The differences
 between this and that are significant:
 
-1. I'm trying to make this fork as portable as possible between Clojure and
-   (JavaScript) ClojureScript.
-2. Since I'm breaking stuff anyway, I'm making all sorts of changes and
-   additions to the original predicates and such, hopefully all for the better.
+1. I tried to make this fork compliant with the new Reader Conditional
+   extension that was not available a the time Chas Emerick wrote its
+   fork;.
+2. Since I was breaking stuff anyway, I fixed a security issue and
+   added the coverage of corner cases, hopefully all for the better.
 
 # Installation
 
-Add the following dependency to your `project.clj` file:
+Add the following dependency to your `project.clj` file or to your
+`build.boot` file:
 
-    [com.cemerick/valip "0.3.2"]
+    [org.clojars.magomimmo/valip "0.4.0-SNAPSHOT"]
 
 # Usage
 
-The main validation function is `valip.core/validate`. It uses the following
-syntax:
+The main validation function is `valip.core/validate`. It uses the
+following syntax:
 
     (validate map-of-values
       [key1 predicate1 error1]
@@ -60,17 +65,21 @@ For example:
 
     => {:age ["must be over 18"])
 
+You can see an example of usage of the `valip` library in the
+[`modern-cljs](https://github.com/magomimmo/modern-cljs) series of
+tutorial on Clojure(Script).
+
 # Predicates
 
-Valip has a number of useful predicates and functions that generate predicates.
-More of these useful predicates will be added as the library matures.
+Valip has a number of useful predicates and functions that generate
+predicates.  More of these useful predicates will be eventually added
+as the library matures.
 
-You can find portable predicates in the `valip.predicates` namespace.
-Platform-specifc predicates can be found in `valip.java.predicates` and
-`valip.js.predicates`, depending on your deployment target.
+You can find predicates in the `valip.predicates` namespace which
+includes platform-specific predicates using the `#?` reader macro.
 
 ## License
 
-Copyright © 2012 James Reeves
+Copyright © 2012 James Reeves and Chas Emerick
 
 Distributed under the Eclipse Public License, the same as Clojure.
