@@ -1,5 +1,6 @@
 (set-env!
  :source-paths #{"src"}
+ :resource-paths #{"src"}
  
  :dependencies '[
                  [org.clojure/clojure "1.7.0"]
@@ -7,12 +8,17 @@
                  [adzerk/boot-test "1.1.0"]
                  [adzerk/boot-cljs "1.7.170-3"]
                  [crisptrutski/boot-cljs-test "0.2.1"]
+                 ;;[adzerk/bootlaces "0.1.13" :scope "test"]
                  ])
 
 (require '[adzerk.boot-test :refer [test]]
          '[adzerk.boot-cljs :refer [cljs]]
          '[crisptrutski.boot-cljs-test :refer [test-cljs]]
+         ;;'[adzerk.bootlaces :refer :all]
          )
+
+;;(def +version+ "0.4.0-SNAPSHOT")
+;;(bootlaces! +version+)
 
 (task-options!
  pom {:project 'org.clojars.magomimmo/valip
