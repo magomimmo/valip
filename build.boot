@@ -14,6 +14,17 @@
          '[crisptrutski.boot-cljs-test :refer [test-cljs]]
          )
 
+(task-options!
+ pom {:project 'org.clojars.magomimmo/valip
+      :version "0.4.0-SNAPSHOT"
+      :description "Functional validation library for Clojure and ClojureScript. 
+                    Forked from https://github.com/cemerick/valip"
+      :url "http://github.com/magomimmo/valip"
+      :scm {:url "http://github.com/magomimmo/valip"}
+      :license {"Eclipse Public License" "http://www.eclipse.org/legal/epl-v10.html"}}
+ test {:namespaces #{'valip.test.core 'valip.test.predicates}}
+ test-cljs {:namespaces #{'valip.test.core 'valip.test.predicates}})
+
 (deftask testing
   []
   (merge-env! :source-paths #{"test"})
@@ -25,5 +36,5 @@
   (comp
    (testing)
    (watch)
-   (test-cljs :namespaces #{'valip.test.core 'valip.test.predicates})
-   (test :namespaces #{'valip.test.core 'valip.test.predicates})))
+   (test-cljs)
+   (test)))
