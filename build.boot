@@ -3,7 +3,7 @@
  
  :dependencies '[
                  [org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.170"]
+                 [org.clojure/clojurescript "1.7.228"]
                  [adzerk/boot-test "1.0.7"]
                  [adzerk/boot-cljs "1.7.170-3"]
                  [crisptrutski/boot-cljs-test "0.2.1"]

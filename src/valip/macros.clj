@@ -1,4 +1,4 @@
-(ns valip.predicates.def)
+(ns valip.macros)
 
 (defmacro pfn
   [& [name? & fbody]]
