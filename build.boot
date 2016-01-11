@@ -1,22 +1,23 @@
 (set-env!
  :source-paths #{"src"}
  
- :dependencies '[[org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.228"]
-                 [adzerk/boot-test "1.1.0"]
-                 [adzerk/boot-cljs "1.7.170-3"]
-                 [crisptrutski/boot-cljs-test "0.2.1"]
+ :dependencies '[[org.clojure/clojure "1.7.0" :scope "provided"]
+                 [org.clojure/clojurescript "1.7.228" :scope "provided"]
+                 [adzerk/boot-test "1.1.0" :scope "test"]
+                 [adzerk/boot-cljs "1.7.170-3" :scope "test"]
+                 [crisptrutski/boot-cljs-test "0.2.1" :scope "test"]
                  [adzerk/bootlaces "0.1.13" :scope "test"]])
 
 (require '[adzerk.boot-test :refer [test]]
          '[adzerk.boot-cljs :refer [cljs]]
          '[crisptrutski.boot-cljs-test :refer [test-cljs]]
-         '[adzerk.bootlaces :refer [build-jar push-snapshot bootlaces!]])
+         '[adzerk.bootlaces :refer [bootlaces! build-jar push-snapshot]])
 
 (def +version+ "0.4.0-SNAPSHOT")
 (bootlaces! +version+)
 
 (task-options!
+ push {:ensure-branch nil}
  pom {:project 'org.clojars.magomimmo/valip
       :version +version+
       :description "Functional validation library for Clojure and ClojureScript. 
@@ -40,3 +41,12 @@
    (watch)
    (test-cljs)
    (test)))
+
+(deftask install-jar
+  []
+  (merge-env! :resource-paths #{"src"})
+  (comp
+   (pom)
+   (jar)
+   (install)))
+

@@ -124,9 +124,8 @@
             (catch URISyntaxException _ false)))
    :cljs (defn url?
            [s]
-           (let [uri (. goog.Uri (parse (str s)))]
-             (and (seq (. uri (getScheme)))
-                  ;; (seq (.getSchemeSpecificPart uri))
+           (let [uri (goog.Uri.parse (str s))]
+             (and (seq (.getScheme uri))
                   (re-find #"//" (str s))))))
 
 #?(:clj (defn- dns-lookup [^String hostname ^String type]
