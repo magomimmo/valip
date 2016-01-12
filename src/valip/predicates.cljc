@@ -66,7 +66,7 @@
 (defn alphanumeric?
   "Returns true if a string consists only of alphanumeric characters."
   [s]
-  (boolean (re-matches #"[A-Za-z0-9]+" s)))
+  (boolean (re-matches #"[A-Za-z0-9]+" (str s))))
 
 (defn- parse-number [x]
   (if (and (string? x) (re-matches #"\s*[+-]?\d+(\.\d+M|M|N)?\s*" x))
